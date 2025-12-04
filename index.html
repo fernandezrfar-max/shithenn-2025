@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheitenn Boutique</title>
+    <link rel="icon" href="logo.png" type="image/png"> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. Variables de Color (Ajustadas a tu Marca Rosa/Fucsia) */
+        :root {
+            --color-primario: #E84D8C; /* Rosa Fuerte de tu logo */
+            --color-secundario: #D0008F; /* Fucsia profundo */
+            --color-fondo: #FFFFFF; /* Blanco Puro */
+            --color-texto: #1A1A1A; /* Negro Profundo */
+            --color-gris-claro: #F8F8F8;
+            --color-blanco: #FFFFFF;
+            --color-rosa-claro: #FADDE5; /* Fondo de la tarjeta de corazón */
+        }
+
+        /* 2. Estilos Generales y Tipografía (Inter Black) */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, .cta-button, nav a {
+            font-weight: 900; 
+        }
+        
+        /* 3. HEADER y NAV */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--color-gris-claro);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 90%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 80px; margin-right: 10px; }
+        .logo-text h1 {
+            color: var(--color-primario);
+            font-size: 1.8em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--color-texto);
+            text-decoration: none;
+            margin-left: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover { color: var(--color-primario); }
+        
+        /* 4. SECCIÓN HERO */
+        .hero {
+            /* Usando la imagen de fondo 1.jpg que subiste */
+            background: url('fondo 1.png') center center/cover no-repeat;
+            height: 110vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 70px;
+            position: relative;
+            color: var(--color-blanco);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Overlay más oscuro para el texto blanco */
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            color: var(--color-blanco);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content h2 {
+            font-size: 5em;
+            margin-bottom: 15px;
+            color: var(--color-blanco);
+        }
+        .hero-content .cta-button {
+            background-color: var(--color-secundario);
+            color: var(--color-blanco);
+            padding: 15px 40px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-radius: 50px; /* Borde muy redondeado para estilo de marca */
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(224, 73, 137, 0.4);
+        }
+        .hero-content .cta-button:hover { background-color: var(--color-primario); }
+
+        /* 5. Catálogo de Productos (Tarjetas Estilo Marca) */
+        .catalogo {
+            padding: 60px 5%;
+            background-color: var(--color-gris-claro); /* Fondo sutil para destacar las tarjetas */
+            text-align: center;
+        }
+        .catalogo h2 {
+            font-size: 2.8em;
+            color: var(--color-texto);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        /* Contenedor de la Tarjeta - Bordes Súper Redondeados */
+        .producto-card {
+            background-color: var(--color-fondo);
+            border: 1px solid var(--color-rosa-claro);
+            border-radius: 20px; /* ¡Más redondeado! */
+            overflow: hidden; 
+            text-align: center;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .producto-card:hover { 
+            box-shadow: 0 10px 25px rgba(224, 73, 137, 0.2); 
+            transform: translateY(-5px);
+        }
+        
+        /* Contenedor de la imagen para el efecto de zoom y contain */
+        .producto-imagen-wrapper {
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-gris-claro);
+        }
+
+        .producto-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Imagen completa */
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .producto-card:hover img {
+            transform: scale(1.08); /* Zoom más notorio */
+        }
+
+        .producto-info { 
+            padding: 0 15px 20px 15px;
+        }
+        .producto-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--color-texto);
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700; /* Menos Black que el precio */
+        }
+        /* Precio - Destacado en Fucsia */
+        .producto-info p {
+            margin: 0 0 15px 0;
+            font-weight: 900;
+            color: var(--color-secundario); /* Fucsia */
+            font-size: 1.5em;
+        }
+        
+        /* Botón de Producto (Estilo 'Comprar Ahora' de la imagen) */
+        .btn-detalle {
+            background-color: var(--color-secundario); 
+            color: var(--color-blanco);
+            border: none;
+            padding: 12px 25px;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            cursor: pointer;
+            border-radius: 50px; /* Bordes muy redondeados */
+            font-weight: 900;
+            transition: background-color 0.3s ease;
+            width: 90%; /* Ancho completo */
+            margin-top: 10px;
+        }
+        .btn-detalle:hover { 
+            background-color: var(--color-primario); /* Rosa Suave */
+            box-shadow: 0 2px 10px rgba(224, 73, 137, 0.4);
+        }
+        
+        /* 6. Estilo del Botón Flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float::before {
+            content: '💬';
+            font-size: 24px;
+        }
+
+        /* 7. Footer Mejorado */
+        footer {
+            background-color: var(--color-texto);
+            color: var(--color-gris-claro);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: var(--color-secundario);
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        /* 8. Media Queries (Responsivo) */
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            nav a { margin: 0 10px; font-size: 0.9em; }
+            .hero { height: 60vh; }
+            .hero-content h2 { font-size: 3em; }
+            .productos-grid { grid-template-columns: 1fr; }
+            .whatsapp-float { bottom: 20px; right: 20px; }
+            .btn-detalle { width: 80%; }
+        }
+
+        /* =======================
+   MODAL DE PRODUCTO
+======================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.modal {
+    background: white;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.modal h3 {
+    margin-top: 15px;
+    font-size: 1.4em;
+    font-weight: 900;
+}
+
+.modal p {
+    font-weight: bold;
+    color: var(--color-secundario);
+    font-size: 1.4em;
+}
+
+.btn-whatsapp-modal {
+    margin-top: 15px;
+    display: block;
+    padding: 12px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    font-weight: 900;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.btn-cerrar {
+    margin-top: 10px;
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1em;
+    color: var(--color-primario);
+}
+
+    </style>
+    </head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="SheiTenn Boutique Logo">
+            <div class="logo-text">
+            </div>
+        </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="quienesomos.html">Quienes Somos</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h2>LAS MEJORES COLECCIONES</h2>
+                <a href="productos.html" class="cta-button">VER PRODUCTOS</a>
+            </div>
+        </section>
+        
+        <section id="catalogo" class="catalogo">
+            <h2>Productos Mas Buscados 🛍️</h2>
+            <div class="productos-grid">
+                
+                <article class="producto-card" data-id="1">
+                    <div class="producto-imagen-wrapper">
+                        <img src="Blusa Corta.jpg" alt="Blusa Corta">
+                    </div>
+                    <div class="producto-info">
+                        <h3>Blusa Corta</h3>
+                        <p>$38.000 COP</p> 
+                        <button class="btn-detalle">COMPRAR AHORA</button>
+                    </div>
+                </article>
+                
+                <article class="producto-card" data-id="3">
+                    <div class="producto-imagen-wrapper">
+                        <img src="Chaqueta peluda.jpg" alt="Pantalón Wide Leg">
+                    </div>
+                    <div class="producto-info">
+                        <h3>Chaqueta Peluda</h3>
+                        <p>$--</p>
+                        <button class="btn-detalle">COMPRAR AHORA</button>
+                    </div>
+                </article>
+
+                   <article class="producto-card" data-id="2">
+                    <div class="producto-imagen-wrapper">
+                        <img src="Blusa Manga Larga.jpg" alt="Blusa Asimétrica">
+                    </div>
+                    <div class="producto-info">
+                        <h3>Blusa Manga Larga</h3>
+                        <p>$42.000 COP</p>
+                        <button class="btn-detalle">COMPRAR AHORA</button>
+                    </div>
+                </article>
+
+                <article class="producto-card" data-id="4">
+                    <div class="producto-imagen-wrapper">
+                        <img src="Blusa Cruzada.jpg" alt="Chaqueta Peluda">
+                    </div>
+                    <div class="producto-info">
+                        <h3>Bluza Cruzada</h3>
+                        <p>$38.000 COP</p>
+                        <button class="btn-detalle">COMPRAR AHORA</button>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+    <div id="modalProducto" class="modal-overlay">
+    <div class="modal">
+        <img id="modalImagen" src="">
+        <h3 id="modalNombre"></h3>
+        <p id="modalPrecio"></p>
+
+        <a id="modalWhatsapp" class="btn-whatsapp-modal" target="_blank">
+            CONFIRMAR COMPRA POR WHATSAPP
+        </a>
+
+        <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
+    </div>
+</div>
+
+
+    <footer>
+        <p>Sheitenn Boutique | Descubre la Elegancia en cada detalle.</p>
+        <div>
+            <a href="https://www.instagram.com/boutique.sheitenn/" target="_blank">Instagram</a> | 
+            <a href="https://www.tiktok.com/@13sheitenn31" target="_blank">TikTok</a> | 
+            <a href="https://wa.me/3134966946" target="_blank">WhatsApp</a>
+        </div>
+        <p style="margin-top: 10px;">&copy; 2025 Todos los derechos reservados.</p>
+    </footer>
+    
+    <a href="https://wa.me/3134966946?text=Hola%2C%20quisiera%20consultar%20sobre%20la%20ropa%20de%20SheiTenn%20Boutique." class="whatsapp-float" target="_blank" title="Contáctanos por WhatsApp"></a>
+
+    
+   <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const botonesDetalle = document.querySelectorAll('.btn-detalle');
+    const modal = document.getElementById('modalProducto');
+    const modalNombre = document.getElementById('modalNombre');
+    const modalPrecio = document.getElementById('modalPrecio');
+    const modalImagen = document.getElementById('modalImagen');
+    const modalWhatsapp = document.getElementById('modalWhatsapp');
+
+    // ABRIR MODAL
+    botonesDetalle.forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            const card = e.target.closest('.producto-card');
+            const nombre = card.querySelector("h3").textContent;
+            const precio = card.querySelector("p").textContent;
+            const imagen = card.querySelector("img").src;
+
+            modalNombre.textContent = nombre;
+            modalPrecio.textContent = precio;
+            modalImagen.src = imagen;
+
+            const mensaje = encodeURIComponent(
+                `Hola 👋, estoy interesada en comprar:\n\n🛍 *${nombre}*\n💲 Precio: ${precio}\n\n¿Está disponible?`
+            );
+
+            modalWhatsapp.href = `https://wa.me/3134966946?text=${mensaje}`;
+
+            modal.style.display = "flex";
+        });
+    });
+
+    // CERRAR MODAL
+    window.cerrarModal = function () {
+        modal.style.display = "none";
+    };
+
+    // Cerrar al hacer click afuera
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) cerrarModal();
+    });
+
+    // Scroll suave
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+                        const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

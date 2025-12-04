@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Sheitenn Boutique</title>
+    <link rel="icon" href="logo.png" type="image/png"> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================================== */
+        /* ESTILOS CSS INTEGRADOS (Sin cambios en estilos) */
+        /* ========================================================== */
+
+        /* 1. Variables de Color */
+        :root {
+            --color-primario: #E84D8C; /* Rosa Fuerte de tu logo */
+            --color-secundario: #D0008F; /* Fucsia profundo */
+            --color-fondo: #FFFFFF; /* Blanco Puro */
+            --color-texto: #1A1A1A; /* Negro Profundo */
+            --color-gris-claro: #F8F8F8;
+            --color-blanco: #FFFFFF;
+            --color-rosa-claro: #FADDE5;
+        }
+
+        /* 2. Estilos Generales y Tipografía */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-gris-claro);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, nav a, .cta-button {
+            font-weight: 900; 
+        }
+        
+        /* 3. HEADER y NAV */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--color-gris-claro);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 90%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 80px; margin-right: 10px; }
+        .logo-text h1 {
+            color: var(--color-primario);
+            font-size: 1.8em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--color-texto);
+            text-decoration: none;
+            margin-left: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { 
+            color: var(--color-primario); 
+            border-bottom: 3px solid var(--color-primario);
+        }
+        
+        /* 4. Estilos de la Sección de Contacto */
+        .contacto-container {
+            padding: 150px 5% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 70vh;
+        }
+
+        .contacto-container h2 {
+            font-size: 3em;
+            color: var(--color-secundario);
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background-color: var(--color-fondo);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Estilos del Formulario */
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--color-primario);
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--color-rosa-claro);
+            border-radius: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .contact-form input[type="text"]:focus,
+        .contact-form input[type="email"]:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--color-secundario);
+            box-shadow: 0 0 5px rgba(208, 0, 143, 0.3);
+        }
+        
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-secundario);
+            color: var(--color-blanco);
+            padding: 15px 40px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(224, 73, 137, 0.4);
+        }
+        .cta-button:hover { background-color: var(--color-primario); }
+
+        /* Estilos de la Información de Contacto */
+        .contact-info {
+            padding-left: 20px;
+        }
+        .contact-info h3 {
+            font-size: 2em;
+            color: var(--color-primario);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+        .contact-item span {
+            margin-right: 15px;
+            font-size: 1.5em; /* Icono más grande */
+            color: var(--color-secundario);
+        }
+        .contact-info a {
+            color: var(--color-texto);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact-info a:hover {
+            color: var(--color-primario);
+        }
+
+
+        /* 5. Estilo del Botón Flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float::before {
+            content: '💬';
+            font-size: 24px;
+        }
+
+        /* 6. Footer */
+        footer {
+            background-color: var(--color-texto);
+            color: var(--color-gris-claro);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: var(--color-secundario);
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        /* 7. Media Queries */
+        @media (max-width: 900px) {
+            .contacto-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-info {
+                padding-left: 0;
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            nav a { margin: 5px 10px; font-size: 0.9em; }
+            .contacto-container { padding-top: 200px; padding-left: 10px; padding-right: 10px; }
+            .contacto-container h2 { font-size: 2.2em; }
+            .whatsapp-float { bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="SheiTenn Boutique Logo">
+            <div class="logo-text">
+            </div>
+        </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="quienesomos.html">Quienes Somos</a>
+            <a href="contacto.html" class="active">Contacto</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contacto-container">
+            <h2>💌 Queremos Escucharte 📞</h2>
+
+            <div class="contacto-grid">
+                <div class="contact-form">
+                    <h3>Envíanos un Mensaje</h3>
+                    <form id="contactForm"> 
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre" required>
+
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="mensaje">Mensaje o Consulta</label>
+                        <textarea id="mensaje" name="mensaje" required></textarea>
+
+                        <button type="submit" class="cta-button">Enviar Mensaje</button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Información Directa</h3>
+                    
+                    <div class="contact-item">
+                        <span>📱</span> 
+                        <p><strong>WhatsApp:</strong> <a href="https://wa.me/3134966946" target="_blank">+57 313 496 6946</a></p>
+                    </div>
+
+                    <div class="contact-item">
+                        <span>📧</span> 
+                        <p><strong>Correo:</strong> <a href="mailto:boutique.sheitenn@email.com">boutique.sheitenn@email.com</a></p>
+                    </div>
+
+                    <div class="contact-item">
+                        <span>📍</span> 
+                        <p><strong>Ubicación:</strong> Bogotá, Colombia</p>
+                    </div>
+
+                    <div class="contact-item">
+                        <span>⏰</span> 
+                        <p><strong>Horario:</strong> Siempre disponibles</p>
+                    </div>
+
+                    <h3 style="margin-top: 40px;">Síguenos</h3>
+                    <div class="contact-item">
+                        <span>📸</span>
+                        <p><a href="https://www.instagram.com/boutique.sheitenn/" target="_blank">@boutique.sheitenn (Instagram)</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <span>🎵</span>
+                        <p><a href="https://www.tiktok.com/@13sheitenn31" target="_blank">@13sheitenn31 (TikTok)</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Sheitenn Boutique | Descubre la Elegancia en cada detalle.</p>
+        <div>
+            <a href="https://www.instagram.com/boutique.sheitenn/" target="_blank">Instagram</a> | 
+            <a href="https://www.tiktok.com/@13sheitenn31" target="_blank">TikTok</a> | 
+            <a href="https://wa.me/3134966946" target="_blank">WhatsApp</a>
+        </div>
+        <p style="margin-top: 10px;">&copy; 2025 Todos los derechos reservados.</p>
+    </footer>
+    
+    <a href="https://wa.me/3134966946?text=Hola%2C%20quisiera%20consultar%20sobre%20la%20ropa%20de%20SheiTenn%20Boutique." class="whatsapp-float" target="_blank" title="Contáctanos por WhatsApp"></a>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const whatsappNumber = '573134966946'; // Tu número de WhatsApp sin signos (+) ni espacios
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Detiene el envío normal del formulario
+
+                const nombre = document.getElementById('nombre').value;
+                const email = document.getElementById('email').value;
+                const mensaje = document.getElementById('mensaje').value;
+
+                // 1. Formatear el mensaje de WhatsApp
+                // Usamos doble salto de línea (%0A%0A) para mejor legibilidad en WhatsApp
+                let whatsappMessage = `*¡Nuevo Mensaje de Contacto (Web)!*%0A%0A`;
+                whatsappMessage += `*Nombre:* ${nombre}%0A`;
+                whatsappMessage += `*Correo:* ${email}%0A%0A`;
+                whatsappMessage += `*Mensaje/Consulta:* %0A${mensaje}%0A`;
+
+                // 2. Codificar el mensaje para la URL
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+
+                // 3. Crear el enlace de WhatsApp
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+                // 4. Redirigir al usuario
+                window.open(whatsappURL, '_blank'); // Abre el chat en una nueva pestaña
+
+                // Opcional: limpiar el formulario después del envío
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>

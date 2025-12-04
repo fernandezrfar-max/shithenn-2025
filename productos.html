@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Sheitenn Boutique</title>
+    <link rel="icon" href="logo.png" type="image/png"> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================================== */
+        /* ESTILOS CSS INTEGRADOS                     */
+        /* ========================================================== */
+
+        /* 1. Variables de Color (Tomadas de tu código inicial) */
+        :root {
+            --color-primario: #E84D8C; /* Rosa Fuerte de tu logo */
+            --color-secundario: #D0008F; /* Fucsia profundo */
+            --color-fondo: #FFFFFF; /* Blanco Puro */
+            --color-texto: #1A1A1A; /* Negro Profundo */
+            --color-gris-claro: #F8F8F8;
+            --color-blanco: #FFFFFF;
+            --color-rosa-claro: #FADDE5; /* Fondo de la tarjeta de corazón */
+            --color-borde-gris: #DDD;
+        }
+
+        /* 2. Estilos Generales y Tipografía */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-gris-claro); /* Fondo claro para toda la página de productos */
+            color: var(--color-texto);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, .cta-button, nav a {
+            font-weight: 900; 
+        }
+        
+        /* 3. HEADER y NAV (Se mantiene igual) */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--color-borde-gris);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 90%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 80px; margin-right: 10px; }
+        .logo-text h1 {
+            color: var(--color-primario);
+            font-size: 1.8em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--color-texto);
+            text-decoration: none;
+            margin-left: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { 
+            color: var(--color-primario); 
+            border-bottom: 3px solid var(--color-primario);
+        }
+        
+        /* 4. Contenedor Principal de Productos */
+        .products-page-container {
+            padding: 150px 5% 60px; /* Padding superior para compensar el header fijo */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-page-container h2 {
+            font-size: 2.8em;
+            color: var(--color-secundario);
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .search-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Estilo del Buscador */
+        .search-box {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--color-rosa-claro);
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 700;
+            transition: border-color 0.3s;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primario);
+            box-shadow: 0 0 5px rgba(232, 77, 140, 0.3);
+        }
+
+        /* Estilo de los Filtros/Categorías */
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .category-filters button {
+            background-color: var(--color-gris-claro);
+            color: var(--color-texto);
+            border: 2px solid var(--color-gris-claro);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+        .category-filters button:hover {
+            background-color: var(--color-rosa-claro);
+            border-color: var(--color-primario);
+        }
+        .category-filters button.active {
+            background-color: var(--color-secundario);
+            color: var(--color-blanco);
+            border-color: var(--color-secundario);
+        }
+
+        /* 5. Estilo de la Rejilla y la Tarjeta de Producto (Mismos estilos que tenías) */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        /* Contenedor de la Tarjeta - Bordes Súper Redondeados */
+        .producto-card {
+            background-color: var(--color-fondo);
+            border: 1px solid var(--color-rosa-claro);
+            border-radius: 20px;
+            overflow: hidden; 
+            text-align: center;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            /* Estilo para productos ocultos */
+            display: block;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease;
+        }
+        .producto-card.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        .producto-card:hover { 
+            box-shadow: 0 10px 25px rgba(224, 73, 137, 0.2); 
+            transform: translateY(-5px);
+        }
+        
+        /* Contenedor de la imagen para el efecto de zoom y contain */
+        .producto-imagen-wrapper {
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-gris-claro);
+        }
+
+        .producto-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .producto-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .producto-info { 
+            padding: 0 15px 20px 15px;
+        }
+        .producto-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--color-texto);
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        /* Precio - Destacado en Fucsia */
+        .producto-info p {
+            margin: 0 0 15px 0;
+            font-weight: 900;
+            color: var(--color-secundario);
+            font-size: 1.5em;
+        }
+        
+        /* Botón de Producto (Estilo 'Comprar Ahora') */
+        .btn-detalle {
+            background-color: var(--color-secundario); 
+            color: var(--color-blanco);
+            border: none;
+            padding: 12px 25px;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 900;
+            transition: background-color 0.3s ease;
+            width: 90%;
+            margin-top: 10px;
+        }
+        .btn-detalle:hover { 
+            background-color: var(--color-primario);
+            box-shadow: 0 2px 10px rgba(224, 73, 137, 0.4);
+        }
+        
+        /* 6. Estilo del Botón Flotante de WhatsApp (Se mantiene igual) */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float::before {
+            content: '💬';
+            font-size: 24px;
+        }
+
+        /* 7. Footer (Se mantiene igual) */
+        footer {
+            background-color: var(--color-texto);
+            color: var(--color-gris-claro);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: var(--color-secundario);
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        /* 8. Media Queries (Responsivo) */
+        @media (max-width: 900px) {
+            .search-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+            .category-filters {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            nav a { margin: 5px 10px; font-size: 0.9em; }
+            .products-page-container { padding-top: 200px; } /* Ajuste de padding si el header es doble línea */
+            .productos-grid { grid-template-columns: 1fr; }
+            .whatsapp-float { bottom: 20px; right: 20px; }
+        }
+
+        /* ======== MODAL DE PRODUCTO ======== */
+/* === MODAL DE DETALLE (versión compacta) === */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal.activo {
+    display: flex;
+}
+
+/* Caja del modal: más pequeña y elegante */
+.modal-contenido {
+    background: #fff;
+    width: 90%;
+    max-width: 380px; /* más pequeño y manejable */
+    border-radius: 18px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.25s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* Botón cerrar */
+.modal-cerrar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Imagen dentro del modal */
+.modal-contenido img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* Nombre */
+.modal-contenido h3 {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+/* Precio */
+.modal-contenido p {
+    font-size: 1.4em;
+    color: var(--color-secundario);
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+/* Botón WhatsApp */
+.modal-btn-whatsapp {
+    display: block;
+    width: 100%;
+    background: #25d366;
+    color: white;
+    padding: 14px;
+    font-weight: 900;
+    border-radius: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+@keyframes fadeIn {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="SheiTenn Boutique Logo">
+            <div class="logo-text">
+            </div>
+        </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.html" class="active">Productos</a> <a href="quienesomos.html">Quienes Somos</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
+
+    <main class="products-page-container">
+        <h2>💖 Catálogo Completo de Productos 💖</h2>
+
+        <div class="search-controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre...">
+            </div>
+
+            <div class="category-filters">
+                <button data-category="todos" class="active" id="all-button">Todos</button>
+                <button data-category="blusas">Blusas</button>
+                <button data-category="chaquetas">Chaquetas</button>
+                <button data-category="pantalones">Pantalones</button>
+            </div>
+        </div>
+        <hr>
+
+        <div class="productos-grid" id="productosGrid">
+            
+            <article class="producto-card" data-category="blusas" data-name="Blusa Corta">
+                <div class="producto-imagen-wrapper">
+                    <img src="Blusa Corta.jpg" alt="Blusa Corta">
+                </div>
+                <div class="producto-info">
+                    <h3>Blusa Corta</h3>
+                    <p>$38.000 COP</p> 
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+
+            <article class="producto-card" data-category="chaquetas" data-name="Chaqueta Peluda">
+                <div class="producto-imagen-wrapper">
+                    <img src="Chaqueta peluda.jpg" alt="Chaqueta Peluda">
+                </div>
+                <div class="producto-info">
+                    <h3>Chaqueta Peluda</h3>
+                    <p>$75.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+
+            <article class="producto-card" data-category="blusas" data-name="Blusa Manga Larga">
+                <div class="producto-imagen-wrapper">
+                    <img src="Blusa Manga Larga.jpg" alt="Blusa Manga Larga">
+                </div>
+                <div class="producto-info">
+                    <h3>Blusa Manga Larga</h3>
+                    <p>$42.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+            
+            <article class="producto-card" data-category="blusas" data-name="Bluza Cruzada">
+                <div class="producto-imagen-wrapper">
+                    <img src="Blusa Cruzada.jpg" alt="Bluza Cruzada">
+                </div>
+                <div class="producto-info">
+                    <h3>Blusa Cruzada</h3>
+                    <p>$38.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+
+            <article class="producto-card" data-category="blusas" data-name="Blusa Cruzada Negra">
+                <div class="producto-imagen-wrapper">
+                    <img src="Blusa Cruzada Negra.jpg" alt="Pantalón Wide Leg Denim">
+                </div>
+                <div class="producto-info">
+                    <h3>Blusa Cruzada negra</h3>
+                    <p>$35.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+
+            <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="Blusa cruzada b n.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa cruzada b/n</h3>
+                    <p>$38.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+              <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa mariposa abierta.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa mariposa abierta</h3>
+                    <p>$35.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+              <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa sencilla.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa sencilla</h3>
+                    <p>$38.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+              <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa mariposa.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa mariposa</h3>
+                    <p>$40.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+             <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa sencilla colombia.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa sencilla colombia</h3>
+                    <p>$38.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+             <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa saco.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa Saco</h3>
+                    <p>$45.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+             <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa corta diseño.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa Corta diseño</h3>
+                    <p>$38.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+             <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa corazón.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa corazón</h3>
+                    <p>$38.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+             <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa manga larga 1.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa manga larga</h3>
+                    <p>$45.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+             <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa maya negra y blanca.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa maya negra y blanca</h3>
+                    <p>$40.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+                <article class="producto-card" data-category="blusas" data-name="Chaqueta de Cuero Sintético">
+                <div class="producto-imagen-wrapper">
+                    <img src="blusa cruzada brillante.jpg" alt="Chaqueta de Cuero Sintético">
+                </div>
+                <div class="producto-info">
+                    <h3>blusa cruzada brillante</h3>
+                    <p>$40.000 COP</p>
+                    <button class="btn-detalle">COMPRAR AHORA</button>
+                </div>
+            </article>
+
+            </div>
+    </main>
+<!-- Modal pequeño y elegante -->
+<div class="modal" id="modalDetalle">
+    <div class="modal-contenido">
+        <button class="modal-cerrar" id="cerrarModal">×</button>
+
+        <img id="modalImagen" src="" alt="">
+        <h3 id="modalNombre"></h3>
+        <p id="modalPrecio"></p>
+
+        <a id="modalWhatsApp" class="modal-btn-whatsapp" target="_blank">
+            Comprar por WhatsApp
+        </a>
+    </div>
+</div>
+
+
+    <footer>
+        <p>Sheitenn Boutique | Descubre la Elegancia en cada detalle.</p>
+        <div>
+            <a href="https://www.instagram.com/boutique.sheitenn/" target="_blank">Instagram</a> | 
+            <a href="https://www.tiktok.com/@13sheitenn31" target="_blank">TikTok</a> | 
+            <a href="https://wa.me/3134966946" target="_blank">WhatsApp</a>
+        </div>
+        <p style="margin-top: 10px;">&copy; 2025 Todos los derechos reservados.</p>
+    </footer>
+    
+    <a href="https://wa.me/3134966946?text=Hola%2C%20quisiera%20consultar%20sobre%20la%20ropa%20de%20SheiTenn%20Boutique." class="whatsapp-float" target="_blank" title="Contáctanos por WhatsApp"></a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const categoryButtons = document.querySelectorAll('.category-filters button');
+            const productCards = document.querySelectorAll('.producto-card');
+            const allButton = document.getElementById('all-button');
+
+            // 1. Funcionalidad del Buscador
+            searchInput.addEventListener('keyup', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                const activeCategory = document.querySelector('.category-filters button.active').dataset.category;
+                
+                filterProducts(searchTerm, activeCategory);
+            });
+
+            // 2. Funcionalidad de Filtro por Categoría
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Desactivar todos los botones
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Activar el botón clicado
+                    button.classList.add('active');
+                    
+                    const selectedCategory = button.dataset.category;
+                    const searchTerm = searchInput.value.toLowerCase().trim();
+                    
+                    filterProducts(searchTerm, selectedCategory);
+                });
+            });
+
+            // Función central para filtrar productos
+            function filterProducts(searchTerm, category) {
+                productCards.forEach(card => {
+                    const productName = card.dataset.name.toLowerCase();
+                    const productCategory = card.dataset.category;
+                    
+                    const matchesSearch = productName.includes(searchTerm);
+                    const matchesCategory = (category === 'todos' || productCategory === category);
+
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 10);
+                        card.classList.remove('hidden');
+                    } else {
+                        card.style.opacity = '0';
+                        // Usar setTimeout para aplicar display: none DESPUÉS de la transición de opacidad
+                        setTimeout(() => {
+                           if (card.style.opacity === '0') {
+                                card.style.display = 'none';
+                                card.classList.add('hidden');
+                           }
+                        }, 300); // 300ms es el tiempo de la transición CSS
+                    }
+                });
+            }
+
+            // 3. Simulación de acción de botón COMPRAR AHORA
+            const botonesDetalle = document.querySelectorAll('.btn-detalle');
+            botonesDetalle.forEach(boton => {
+                boton.addEventListener('click', (evento) => {
+                    const tituloProducto = evento.target.closest('.producto-card').querySelector('h3').textContent;
+                    alert(`Has seleccionado: ${tituloProducto}. ¡Excelente elección! Serás redirigida a la página de compra.`);
+                    // Aquí podrías agregar la lógica para redirigir al checkout o al WhatsApp
+                    // window.location.href = `https://wa.me/3134966946?text=Quiero%20comprar%20${encodeURIComponent(tituloProducto)}`;
+                });
+            });
+
+        });
+    </script>
+
+<script>
+document.querySelectorAll(".btn-detalle").forEach(btn => {
+    btn.addEventListener("click", function() {
+        const card = this.closest(".producto-card");
+        const nombre = card.querySelector("h3").innerText;
+        const precio = card.querySelector("p").innerText;
+        const imagen = card.querySelector("img").src;
+
+        // Insertar en el modal
+        document.getElementById("modalImagen").src = imagen;
+        document.getElementById("modalNombre").innerText = nombre;
+        document.getElementById("modalPrecio").innerText = precio;
+
+        // WhatsApp dinámico
+        const mensaje = encodeURIComponent(`Hola, quiero más información sobre: ${nombre} - ${precio}`);
+        document.getElementById("modalWhatsApp").href =
+            `https://wa.me/573134966946?text=${mensaje}`;
+
+        // Mostrar modal
+        document.getElementById("modalDetalle").classList.add("activo");
+    });
+});
+
+// Cerrar modal
+document.getElementById("cerrarModal").addEventListener("click", () => {
+    document.getElementById("modalDetalle").classList.remove("activo");
+});
+
+// Cerrar tocando afuera
+document.getElementById("modalDetalle").addEventListener("click", e => {
+    if (e.target === e.currentTarget) {
+        e.currentTarget.classList.remove("activo");
+    }
+});
+</script>
+
+<script>
+    const botones = document.querySelectorAll(".category-filters button");
+    const productos = document.querySelectorAll(".producto-card");
+    const searchInput = document.getElementById("searchInput");
+
+    // --- FILTRO POR CATEGORÍAS ---
+    botones.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // Quitar clase activa y asignar al botón pulsado
+            botones.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const categoria = btn.dataset.category;
+
+            productos.forEach(prod => {
+                const prodCat = prod.dataset.category;
+
+                if (categoria === "todos" || prodCat === categoria) {
+                    prod.classList.remove("hidden");
+                } else {
+                    prod.classList.add("hidden");
+                }
+            });
+        });
+    });
+
+    // --- BUSCADOR POR NOMBRE ---
+    searchInput.addEventListener("input", () => {
+        const texto = searchInput.value.toLowerCase();
+
+        productos.forEach(prod => {
+            const nombre = prod.dataset.name.toLowerCase();
+            
+            if (nombre.includes(texto)) {
+                prod.classList.remove("hidden");
+            } else {
+                prod.classList.add("hidden");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

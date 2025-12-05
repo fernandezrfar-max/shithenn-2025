@@ -15,7 +15,6 @@
     --color-gris: #F8F8F8;
 }
 
-/* BODY */
 body {
     font-family: 'Inter', sans-serif;
     background: var(--color-gris);
@@ -70,35 +69,6 @@ body {
     margin: 10px 0 25px;
 }
 
-/* SELECCIÓN */
-.section-title {
-    font-weight: 700;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.tallas button,
-.colores button {
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 2px solid #ccc;
-    background: white;
-    cursor: pointer;
-    margin-right: 10px;
-    font-weight: 600;
-    transition: 0.2s;
-}
-.tallas button:hover,
-.colores button:hover {
-    border-color: var(--color-secundario);
-    color: var(--color-secundario);
-}
-button.selected {
-    border-color: var(--color-secundario);
-    background: var(--color-secundario);
-    color: white !important;
-}
-
 /* BOTÓN WHATSAPP */
 .btn-whatsapp {
     background: #25d366;
@@ -111,7 +81,7 @@ button.selected {
     display: inline-block;
     text-transform: uppercase;
     transition: 0.3s ease;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 .btn-whatsapp:hover {
     background: #1ebe5c;
@@ -190,27 +160,6 @@ button.selected {
         <p class="precio" id="productoPrecio"></p>
         <p class="descripcion" id="productoDescripcion"></p>
 
-        <!-- Tallas -->
-        <div>
-            <p class="section-title">Talla:</p>
-            <div class="tallas">
-                <button onclick="selectOption(this,'talla')">S</button>
-                <button onclick="selectOption(this,'talla')">M</button>
-                <button onclick="selectOption(this,'talla')">L</button>
-                <button onclick="selectOption(this,'talla')">XL</button>
-            </div>
-        </div>
-
-        <!-- Colores -->
-        <div>
-            <p class="section-title">Color:</p>
-            <div class="colores">
-                <button onclick="selectOption(this,'color')">Negro</button>
-                <button onclick="selectOption(this,'color')">Blanco</button>
-                <button onclick="selectOption(this,'color')">Rosado</button>
-            </div>
-        </div>
-
         <a id="whatsappBtn" class="btn-whatsapp" target="_blank">Comprar por WhatsApp</a>
     </div>
 </div>
@@ -222,7 +171,6 @@ button.selected {
 
     <div class="relacionados-grid" id="relacionadosGrid"></div>
 </div>
-
 
 <script>
 // Obtener datos desde la URL
@@ -245,19 +193,11 @@ document.getElementById("whatsappBtn").href =
     `https://wa.me/573205436889?text=${encodeURIComponent(mensaje)}`;
 
 
-// Sistema de selección (talla/color)
-function selectOption(button, type) {
-    const group = button.parentNode.querySelectorAll("button");
-    group.forEach(btn => btn.classList.remove("selected"));
-    button.classList.add("selected");
-}
-
 
 // ===============================
 // PRODUCTOS RELACIONADOS DINÁMICOS
 // ===============================
 
-// Lista de productos (puedes agregar más)
 const productos = [
     { nombre: "Blusa Corta", imagen: "Blusa Corta.jpg", precio: 38000, desc: "Blusa corta fresca y elegante." },
     { nombre: "Chaqueta Peluda", imagen: "Chaqueta peluda.jpg", precio: 75000, desc: "Chaqueta suave y moderna." },
@@ -267,7 +207,6 @@ const productos = [
     { nombre: "Blusa Mariposa", imagen: "blusa mariposa.jpg", precio: 40000, desc: "Diseño mariposa hermoso." },
 ];
 
-// Crear productos aleatorios
 const relacionadosGrid = document.getElementById("relacionadosGrid");
 const mezclados = productos.sort(() => Math.random() - 0.5).slice(0, 6);
 

@@ -231,6 +231,35 @@ body {
         flex-direction: column;
     }
 }
+
+    /* ARREGLO DEL NAV EN CELULARES */
+@media (max-width: 650px) {
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+        height: auto;
+        width: 100%; /* usar todo el ancho */
+    }
+
+    .logo img {
+        height: 55px; /* más pequeño en móvil */
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column; /* MENÚ VERTICAL */
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    nav a {
+        margin: 8px 0; /* separar enlaces verticalmente */
+        font-size: 1rem;
+    }
+}
+
 </style>
 </head>
 

@@ -22,6 +22,94 @@ body {
     padding: 0;
 }
 
+       h1, h2, h3, .cta-button, nav a {
+            font-weight: 900; 
+        }
+        
+        /* 3. HEADER y NAV */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--color-gris-claro);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 90%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 80px; margin-right: 10px; }
+        .logo-text h1 {
+            color: var(--color-primario);
+            font-size: 1.8em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--color-texto);
+            text-decoration: none;
+            margin-left: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover { color: var(--color-primario); }
+        
+        /* 4. SECCIÓN HERO */
+        .hero {
+            /* Usando la imagen de fondo 1.jpg que subiste */
+            background: url('fondo 1.png') center center/cover no-repeat;
+            height: 110vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 70px;
+            position: relative;
+            color: var(--color-blanco);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Overlay más oscuro para el texto blanco */
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            color: var(--color-blanco);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content h2 {
+            font-size: 5em;
+            margin-bottom: 15px;
+            color: var(--color-blanco);
+        }
+        .hero-content .cta-button {
+            background-color: var(--color-secundario);
+            color: var(--color-blanco);
+            padding: 15px 40px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-radius: 50px; /* Borde muy redondeado para estilo de marca */
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(224, 73, 137, 0.4);
+        }
+        .hero-content .cta-button:hover { background-color: var(--color-primario); }
+
+
 /* CONTENEDOR PRINCIPAL */
 .detalle-container {
     max-width: 1100px;
@@ -148,6 +236,19 @@ body {
 
 <body>
 
+       <header>
+        <div class="logo">
+            <img src="logo.png" alt="SheiTenn Boutique Logo">
+            <div class="logo-text">
+            </div>
+        </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="quienesomos.html">Quienes Somos</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
 <!-- CONTENEDOR -->
 <div class="detalle-container">
 

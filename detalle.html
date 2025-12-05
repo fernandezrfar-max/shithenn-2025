@@ -11,39 +11,82 @@
     --color-primario: #E84D8C;
     --color-secundario: #D0008F;
     --color-texto: #1A1A1A;
-    --color-blanco: #FFFFFF;
     --color-gris: #F8F8F8;
+    --color-blanco: #FFFFFF;
 }
 
+/* RESET */
 body {
-    font-family: 'Inter', sans-serif;
-    background: var(--color-gris);
     margin: 0;
-    padding: 0;
+    font-family: "Inter", sans-serif;
+    background: var(--color-gris);
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* NAV */
+nav {
+    width: 100%;
+    background: var(--color-secundario);
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+nav .logo {
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffe1f0;
+}
+
+/* MAIN CONTAINER */
 .detalle-container {
-    max-width: 1100px;
-    margin: 120px auto 40px;
-    padding: 30px;
+    max-width: 1000px;
+    margin: 130px auto 40px;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     display: flex;
     gap: 40px;
 }
 
-/* IMAGEN */
+/* PRODUCT IMAGE */
 .detalle-img {
-    flex: 1;
+    flex: 1.2;
 }
 .detalle-img img {
     width: 100%;
-    height: 520px;
+    height: 500px;
     object-fit: contain;
-    border-radius: 20px;
     background: var(--color-gris);
+    border-radius: 20px;
+    padding: 10px;
 }
 
 /* INFO */
@@ -52,95 +95,101 @@ body {
 }
 
 .detalle-info h2 {
-    font-size: 2.1em;
+    font-size: 2.2em;
     color: var(--color-secundario);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-.detalle-info p.precio {
-    font-size: 2em;
-    font-weight: 900;
-    color: var(--color-secundario);
-}
-
-.detalle-info p.descripcion {
-    font-size: 1.2em;
-    color: #444;
-    margin: 10px 0 25px;
-}
-
-/* BOTÓN WHATSAPP */
-.btn-whatsapp {
-    background: #25d366;
-    padding: 15px 25px;
-    border-radius: 50px;
-    color: white;
-    font-weight: 900;
-    font-size: 1.1em;
-    text-decoration: none;
-    display: inline-block;
-    text-transform: uppercase;
-    transition: 0.3s ease;
-    margin-top: 15px;
-}
-.btn-whatsapp:hover {
-    background: #1ebe5c;
-}
-
-/* PRODUCTOS RELACIONADOS */
-.relacionados-section {
-    max-width: 1150px;
-    margin: 40px auto;
-}
-
-.relacionados-title {
-    font-size: 1.8em;
+.detalle-info .precio {
+    font-size: 2.3em;
     font-weight: 900;
     color: var(--color-secundario);
     margin-bottom: 20px;
 }
 
-.relacionados-grid {
+.detalle-info p.descripcion {
+    font-size: 1.2em;
+    line-height: 1.5em;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* WHATSAPP BTN */
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    padding: 13px 25px;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+.btn-whatsapp:hover {
+    background: #1ebe5c;
+    transform: scale(1.03);
+}
+
+/* SUGGESTIONS */
+.sugerencias {
+    max-width: 1000px;
+    margin: 50px auto;
+}
+
+.sugerencias h3 {
+    font-size: 1.8em;
+    color: var(--color-secundario);
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.sugerencias-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 25px;
 }
 
-.relacionado-card {
+.sugerencia-card {
     background: white;
-    padding: 15px;
-    border-radius: 15px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     transition: 0.3s ease;
+    cursor: pointer;
 }
-.relacionado-card:hover {
-    transform: scale(1.05);
+.sugerencia-card:hover {
+    transform: scale(1.04);
 }
 
-.relacionado-card img {
+.sugerencia-card img {
     width: 100%;
-    height: 260px;
+    height: 280px;
     object-fit: cover;
-    border-radius: 12px;
 }
 
-.relacionado-card h4 {
-    margin-top: 10px;
-    font-size: 1.1em;
+.sugerencia-card .info {
+    padding: 15px;
+    text-align: center;
+}
+
+.sugerencia-card .info h4 {
+    margin: 5px 0;
+    font-size: 1.2em;
     font-weight: 700;
 }
 
-.relacionado-card p {
+.sugerencia-card .info .precio {
+    font-size: 1.2em;
     color: var(--color-secundario);
     font-weight: 900;
 }
 
-/* RESPONSIVE */
 @media (max-width: 850px) {
     .detalle-container {
         flex-direction: column;
+        padding: 25px;
     }
 }
 </style>
@@ -148,7 +197,17 @@ body {
 
 <body>
 
-<!-- CONTENEDOR -->
+<!-- NAV -->
+<nav>
+    <div class="logo">SHEITENN</div>
+    <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="productos.html">Productos</a></li>
+        <li><a href="contacto.html">Contáctanos</a></li>
+    </ul>
+</nav>
+
+<!-- MAIN PRODUCT INFO -->
 <div class="detalle-container">
 
     <div class="detalle-img">
@@ -162,18 +221,20 @@ body {
 
         <a id="whatsappBtn" class="btn-whatsapp" target="_blank">Comprar por WhatsApp</a>
     </div>
+
 </div>
 
+<!-- SUGERENCIAS -->
+<div class="sugerencias">
+    <h3>Productos que también te pueden interesar</h3>
 
-<!-- PRODUCTOS RELACIONADOS -->
-<div class="relacionados-section">
-    <h3 class="relacionados-title">También te puede interesar</h3>
-
-    <div class="relacionados-grid" id="relacionadosGrid"></div>
+    <div class="sugerencias-grid" id="sugerenciasLista">
+        <!-- AUTO-GENERADO POR JS -->
+    </div>
 </div>
 
 <script>
-// Obtener datos desde la URL
+// Datos del URL
 const params = new URLSearchParams(window.location.search);
 
 const nombre = params.get("nombre");
@@ -181,49 +242,45 @@ const imagen = params.get("imagen");
 const precio = params.get("precio");
 const descripcion = params.get("descripcion");
 
-// Insertar datos al HTML
+// Insertar
 document.getElementById("productoNombre").textContent = nombre;
 document.getElementById("productoImagen").src = imagen;
 document.getElementById("productoPrecio").textContent = "$" + precio + " COP";
 document.getElementById("productoDescripcion").textContent = descripcion;
 
-// WhatsApp dinámico
-const mensaje = `Hola, me interesa el producto: ${nombre} por $${precio}`;
+// WhatsApp personalizado
+const mensaje = `Hola, me interesa el producto ${nombre} por $${precio}.`;
 document.getElementById("whatsappBtn").href =
     `https://wa.me/573205436889?text=${encodeURIComponent(mensaje)}`;
 
 
-
-// ===============================
-// PRODUCTOS RELACIONADOS DINÁMICOS
-// ===============================
-
-const productos = [
-    { nombre: "Blusa Corta", imagen: "Blusa Corta.jpg", precio: 38000, desc: "Blusa corta fresca y elegante." },
-    { nombre: "Chaqueta Peluda", imagen: "Chaqueta peluda.jpg", precio: 75000, desc: "Chaqueta suave y moderna." },
-    { nombre: "Blusa Manga Larga", imagen: "Blusa Manga Larga.jpg", precio: 42000, desc: "Blusa cómoda y ligera." },
-    { nombre: "Blusa Cruzada", imagen: "Blusa Cruzada.jpg", precio: 38000, desc: "Diseño cruzado con estilo." },
-    { nombre: "Blusa Cruzada Negra", imagen: "Blusa Cruzada Negra.jpg", precio: 35000, desc: "Perfecta para toda ocasión." },
-    { nombre: "Blusa Mariposa", imagen: "blusa mariposa.jpg", precio: 40000, desc: "Diseño mariposa hermoso." },
+// PRODUCTOS ALEATORIOS (sugerencias)
+const productosEjemplo = [
+    {nombre:"Blusa Negra", precio:"35000", img:"img/blusa1.jpg"},
+    {nombre:"Body Rosado", precio:"42000", img:"img/body1.jpg"},
+    {nombre:"Pantalón Cargo", precio:"65000", img:"img/cargo1.jpg"},
+    {nombre:"Enterizo Casual", precio:"75000", img:"img/enterizo1.jpg"},
 ];
 
-const relacionadosGrid = document.getElementById("relacionadosGrid");
-const mezclados = productos.sort(() => Math.random() - 0.5).slice(0, 6);
+const contenedor = document.getElementById("sugerenciasLista");
 
-mezclados.forEach(p => {
-    const card = document.createElement("div");
-    card.classList.add("relacionado-card");
-    card.onclick = () => {
-        window.location.href =
-            `detalle.html?nombre=${encodeURIComponent(p.nombre)}&imagen=${encodeURIComponent(p.imagen)}&precio=${p.precio}&descripcion=${encodeURIComponent(p.desc)}`;
-    };
-    card.innerHTML = `
-        <img src="${p.imagen}">
-        <h4>${p.nombre}</h4>
-        <p>$${p.precio} COP</p>
+productosEjemplo.forEach(p => {
+    contenedor.innerHTML += `
+        <div class="sugerencia-card" onclick="verDetalle('${p.nombre}','${p.img}','${p.precio}','Hermoso modelo disponible')">
+            <img src="${p.img}">
+            <div class="info">
+                <h4>${p.nombre}</h4>
+                <p class="precio">$${p.precio} COP</p>
+            </div>
+        </div>
     `;
-    relacionadosGrid.appendChild(card);
 });
+
+// Función reutilizada para cargar detalles
+function verDetalle(nombre, imagen, precio, descripcion) {
+    const url = `detalle.html?nombre=${encodeURIComponent(nombre)}&imagen=${encodeURIComponent(imagen)}&precio=${encodeURIComponent(precio)}&descripcion=${encodeURIComponent(descripcion)}`;
+    window.location.href = url;
+}
 </script>
 
 </body>

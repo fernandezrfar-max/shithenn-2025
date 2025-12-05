@@ -23,16 +23,16 @@ body {
     padding: 0;
 }
 
-/* CONTENEDOR */
+/* CONTENEDOR PRINCIPAL */
 .detalle-container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 120px auto 40px;
     padding: 30px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     display: flex;
-    gap: 30px;
+    gap: 40px;
 }
 
 /* IMAGEN */
@@ -41,7 +41,7 @@ body {
 }
 .detalle-img img {
     width: 100%;
-    height: 450px;
+    height: 520px;
     object-fit: contain;
     border-radius: 20px;
     background: var(--color-gris);
@@ -53,7 +53,7 @@ body {
 }
 
 .detalle-info h2 {
-    font-size: 2em;
+    font-size: 2.1em;
     color: var(--color-secundario);
     margin-bottom: 10px;
 }
@@ -65,10 +65,38 @@ body {
 }
 
 .detalle-info p.descripcion {
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #444;
-    margin-top: 10px;
-    margin-bottom: 25px;
+    margin: 10px 0 25px;
+}
+
+/* SELECCIÓN */
+.section-title {
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.tallas button,
+.colores button {
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 2px solid #ccc;
+    background: white;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.tallas button:hover,
+.colores button:hover {
+    border-color: var(--color-secundario);
+    color: var(--color-secundario);
+}
+button.selected {
+    border-color: var(--color-secundario);
+    background: var(--color-secundario);
+    color: white !important;
 }
 
 /* BOTÓN WHATSAPP */
@@ -83,13 +111,64 @@ body {
     display: inline-block;
     text-transform: uppercase;
     transition: 0.3s ease;
+    margin-top: 25px;
 }
 .btn-whatsapp:hover {
     background: #1ebe5c;
 }
 
+/* PRODUCTOS RELACIONADOS */
+.relacionados-section {
+    max-width: 1150px;
+    margin: 40px auto;
+}
+
+.relacionados-title {
+    font-size: 1.8em;
+    font-weight: 900;
+    color: var(--color-secundario);
+    margin-bottom: 20px;
+}
+
+.relacionados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.relacionado-card {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    transition: 0.3s ease;
+}
+.relacionado-card:hover {
+    transform: scale(1.05);
+}
+
+.relacionado-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.relacionado-card h4 {
+    margin-top: 10px;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.relacionado-card p {
+    color: var(--color-secundario);
+    font-weight: 900;
+}
+
 /* RESPONSIVE */
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     .detalle-container {
         flex-direction: column;
     }
@@ -111,9 +190,39 @@ body {
         <p class="precio" id="productoPrecio"></p>
         <p class="descripcion" id="productoDescripcion"></p>
 
+        <!-- Tallas -->
+        <div>
+            <p class="section-title">Talla:</p>
+            <div class="tallas">
+                <button onclick="selectOption(this,'talla')">S</button>
+                <button onclick="selectOption(this,'talla')">M</button>
+                <button onclick="selectOption(this,'talla')">L</button>
+                <button onclick="selectOption(this,'talla')">XL</button>
+            </div>
+        </div>
+
+        <!-- Colores -->
+        <div>
+            <p class="section-title">Color:</p>
+            <div class="colores">
+                <button onclick="selectOption(this,'color')">Negro</button>
+                <button onclick="selectOption(this,'color')">Blanco</button>
+                <button onclick="selectOption(this,'color')">Rosado</button>
+            </div>
+        </div>
+
         <a id="whatsappBtn" class="btn-whatsapp" target="_blank">Comprar por WhatsApp</a>
     </div>
 </div>
+
+
+<!-- PRODUCTOS RELACIONADOS -->
+<div class="relacionados-section">
+    <h3 class="relacionados-title">También te puede interesar</h3>
+
+    <div class="relacionados-grid" id="relacionadosGrid"></div>
+</div>
+
 
 <script>
 // Obtener datos desde la URL
@@ -132,7 +241,50 @@ document.getElementById("productoDescripcion").textContent = descripcion;
 
 // WhatsApp dinámico
 const mensaje = `Hola, me interesa el producto: ${nombre} por $${precio}`;
-document.getElementById("whatsappBtn").href = `https://wa.me/573205436889?text=${encodeURIComponent(mensaje)}`;
+document.getElementById("whatsappBtn").href =
+    `https://wa.me/573205436889?text=${encodeURIComponent(mensaje)}`;
+
+
+// Sistema de selección (talla/color)
+function selectOption(button, type) {
+    const group = button.parentNode.querySelectorAll("button");
+    group.forEach(btn => btn.classList.remove("selected"));
+    button.classList.add("selected");
+}
+
+
+// ===============================
+// PRODUCTOS RELACIONADOS DINÁMICOS
+// ===============================
+
+// Lista de productos (puedes agregar más)
+const productos = [
+    { nombre: "Blusa Corta", imagen: "Blusa Corta.jpg", precio: 38000, desc: "Blusa corta fresca y elegante." },
+    { nombre: "Chaqueta Peluda", imagen: "Chaqueta peluda.jpg", precio: 75000, desc: "Chaqueta suave y moderna." },
+    { nombre: "Blusa Manga Larga", imagen: "Blusa Manga Larga.jpg", precio: 42000, desc: "Blusa cómoda y ligera." },
+    { nombre: "Blusa Cruzada", imagen: "Blusa Cruzada.jpg", precio: 38000, desc: "Diseño cruzado con estilo." },
+    { nombre: "Blusa Cruzada Negra", imagen: "Blusa Cruzada Negra.jpg", precio: 35000, desc: "Perfecta para toda ocasión." },
+    { nombre: "Blusa Mariposa", imagen: "blusa mariposa.jpg", precio: 40000, desc: "Diseño mariposa hermoso." },
+];
+
+// Crear productos aleatorios
+const relacionadosGrid = document.getElementById("relacionadosGrid");
+const mezclados = productos.sort(() => Math.random() - 0.5).slice(0, 6);
+
+mezclados.forEach(p => {
+    const card = document.createElement("div");
+    card.classList.add("relacionado-card");
+    card.onclick = () => {
+        window.location.href =
+            `detalle.html?nombre=${encodeURIComponent(p.nombre)}&imagen=${encodeURIComponent(p.imagen)}&precio=${p.precio}&descripcion=${encodeURIComponent(p.desc)}`;
+    };
+    card.innerHTML = `
+        <img src="${p.imagen}">
+        <h4>${p.nombre}</h4>
+        <p>$${p.precio} COP</p>
+    `;
+    relacionadosGrid.appendChild(card);
+});
 </script>
 
 </body>

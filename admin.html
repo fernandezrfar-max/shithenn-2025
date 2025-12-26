@@ -2,36 +2,46 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Admin - Subir Productos</title>
+  <title>Admin Boutique</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background: #f2f2f2;
     }
 
-    .admin-box {
-      background: white;
-      padding: 25px;
-      width: 320px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    h2 {
+    header {
+      background: black;
+      color: white;
+      padding: 15px;
       text-align: center;
-      margin-bottom: 20px;
+      font-size: 20px;
     }
 
-    input, button {
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    input, select, button {
       width: 100%;
       padding: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     button {
@@ -44,13 +54,71 @@
     button:hover {
       background: #333;
     }
+
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
+    }
+
+    .producto {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .producto-info {
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .estado {
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .nuevo { color: green; }
+    .agotado { color: red; }
+
+    .acciones button {
+      margin-top: 5px;
+      font-size: 12px;
+      padding: 6px;
+    }
+
+    .acciones button.eliminar {
+      background: #c0392b;
+    }
+
+    .acciones button.agotado {
+      background: #f39c12;
+    }
+
+    .acciones button.nuevo {
+      background: #27ae60;
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="admin-box">
-    <h2>Subir producto</h2>
+<header>
+  Panel de Administración - Boutique
+</header>
+
+<div class="container">
+
+  <!-- FORMULARIO -->
+  <div class="card">
+    <h3>Subir producto</h3>
 
     <input type="text" id="nombre" placeholder="Nombre del producto">
     <input type="number" id="precio" placeholder="Precio">
@@ -60,18 +128,26 @@
     <button onclick="subirProducto()">Subir producto</button>
   </div>
 
-<script type="module">
-  // Firebase core
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  <!-- LISTADO -->
+  <div class="card">
+    <h3>Productos publicados</h3>
+    <div class="productos" id="listaProductos"></div>
+  </div>
 
-  // Firestore
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
   import {
     getFirestore,
     collection,
-    addDoc
+    addDoc,
+    onSnapshot,
+    doc,
+    updateDoc,
+    deleteDoc
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // Configuración Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDI8B6x2XEI9KEMVMKTgVS2sfylh9mGjd4",
     authDomain: "boutique-2025.firebaseapp.com",
@@ -81,46 +157,79 @@
     appId: "1:249111974538:web:b7dc7b68c4b227c78e5373"
   };
 
-  // Inicializar Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Hacemos la función global para el botón
-  window.subirProducto = async function () {
-    const nombre = document.getElementById("nombre").value.trim();
-    const precio = document.getElementById("precio").value.trim();
-    const talla = document.getElementById("talla").value.trim();
-    const imagen = document.getElementById("imagen").value.trim();
+  window.subirProducto = async () => {
+    const nombre = nombreInput.value.trim();
+    const precio = precioInput.value.trim();
+    const talla = tallaInput.value.trim();
+    const imagen = imagenInput.value.trim();
 
     if (!nombre || !precio || !imagen) {
-      alert("Nombre, precio e imagen son obligatorios");
+      alert("Completa los campos obligatorios");
       return;
     }
 
-    try {
-      await addDoc(collection(db, "productos"), {
-        nombre: nombre,
-        precio: precio,
-        talla: talla,
-        imagen: imagen,
-        fecha: Date.now()
-      });
+    await addDoc(collection(db, "productos"), {
+      nombre,
+      precio,
+      talla,
+      imagen,
+      estado: "activo",
+      fecha: Date.now()
+    });
 
-      alert("Producto subido correctamente");
+    nombreInput.value = "";
+    precioInput.value = "";
+    tallaInput.value = "";
+    imagenInput.value = "";
+  };
 
-      // limpiar campos
-      document.getElementById("nombre").value = "";
-      document.getElementById("precio").value = "";
-      document.getElementById("talla").value = "";
-      document.getElementById("imagen").value = "";
+  const nombreInput = document.getElementById("nombre");
+  const precioInput = document.getElementById("precio");
+  const tallaInput = document.getElementById("talla");
+  const imagenInput = document.getElementById("imagen");
+  const lista = document.getElementById("listaProductos");
 
-    } catch (error) {
-      console.error("Error al subir producto:", error);
-      alert("Error al subir el producto");
+  onSnapshot(collection(db, "productos"), (snapshot) => {
+    lista.innerHTML = "";
+
+    snapshot.forEach((docu) => {
+      const p = docu.data();
+      const id = docu.id;
+
+      lista.innerHTML += `
+        <div class="producto">
+          <img src="${p.imagen}">
+          <div class="producto-info">
+            <div class="estado ${p.estado === "agotado" ? "agotado" : "nuevo"}">
+              ${p.estado}
+            </div>
+            <strong>${p.nombre}</strong><br>
+            $${p.precio}<br>
+            ${p.talla || ""}
+            <div class="acciones">
+              <button class="nuevo" onclick="cambiarEstado('${id}','activo')">Nuevo</button>
+              <button class="agotado" onclick="cambiarEstado('${id}','agotado')">Agotado</button>
+              <button class="eliminar" onclick="eliminarProducto('${id}')">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+  window.cambiarEstado = async (id, estado) => {
+    await updateDoc(doc(db, "productos", id), { estado });
+  };
+
+  window.eliminarProducto = async (id) => {
+    if (confirm("¿Eliminar este producto?")) {
+      await deleteDoc(doc(db, "productos", id));
     }
   };
 </script>
-
 
 </body>
 </html>

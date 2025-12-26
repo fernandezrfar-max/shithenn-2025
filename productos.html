@@ -1103,6 +1103,85 @@ document.getElementById("modalDetalle").addEventListener("click", e => {
         });
     });
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    orderBy,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDI8B6x2XEI9KEMVMKTgVS2sfylh9mGjd4",
+    authDomain: "boutique-2025.firebaseapp.com",
+    projectId: "boutique-2025",
+    storageBucket: "boutique-2025.firebasestorage.app",
+    messagingSenderId: "249111974538",
+    appId: "1:249111974538:web:b7dc7b68c4b227c78e5373"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const grid = document.getElementById("productosGrid");
+
+  const q = query(collection(db, "productos"), orderBy("fecha", "desc"));
+
+  onSnapshot(q, (snapshot) => {
+    snapshot.docChanges().forEach(change => {
+      if (change.type === "added") {
+        const p = change.doc.data();
+
+        if (p.estado === "agotado") return;
+
+        const card = document.createElement("article");
+        card.className = "producto-card";
+        card.dataset.category = p.categoria || "todos";
+        card.dataset.name = p.nombre.toLowerCase();
+
+        card.innerHTML = `
+          <div class="producto-imagen-wrapper">
+            <img src="${p.imagen}" alt="${p.nombre}">
+          </div>
+
+          <div class="producto-info">
+            ${p.estado === "activo" ? `
+              <span style="
+                background:#E84D8C;
+                color:white;
+                padding:4px 10px;
+                border-radius:20px;
+                font-size:11px;
+                display:inline-block;
+                margin-bottom:5px;">NUEVO</span>` : ""}
+
+            <h3>${p.nombre}</h3>
+            <p>$${p.precio} COP</p>
+            <button class="btn-detalle">COMPRAR AHORA</button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+        activarBoton(card);
+      }
+    });
+  });
+
+  function activarBoton(card) {
+    card.querySelector(".btn-detalle").onclick = () => {
+      const nombre = card.querySelector("h3").innerText;
+      const precio = card.querySelector("p").innerText;
+
+      const mensaje = encodeURIComponent(
+        `Hola, estoy interesada en: ${nombre} (${precio})`
+      );
+
+      window.open(`https://wa.me/573136952121?text=${mensaje}`, "_blank");
+    };
+  }
+</script>
 
 </body>
 </html>

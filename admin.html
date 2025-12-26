@@ -38,7 +38,7 @@
       margin-top: 0;
     }
 
-    input, select, button {
+    input, button {
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
@@ -83,6 +83,7 @@
       font-size: 12px;
       font-weight: bold;
       margin-bottom: 5px;
+      text-transform: uppercase;
     }
 
     .nuevo { color: green; }
@@ -94,15 +95,15 @@
       padding: 6px;
     }
 
-    .acciones button.eliminar {
+    .acciones .eliminar {
       background: #c0392b;
     }
 
-    .acciones button.agotado {
+    .acciones .agotado-btn {
       background: #f39c12;
     }
 
-    .acciones button.nuevo {
+    .acciones .nuevo-btn {
       background: #27ae60;
     }
   </style>
@@ -125,7 +126,7 @@
     <input type="text" id="talla" placeholder="Talla (opcional)">
     <input type="url" id="imagen" placeholder="URL de la imagen">
 
-    <button onclick="subirProducto()">Subir producto</button>
+    <button id="btnSubir">Subir producto</button>
   </div>
 
   <!-- LISTADO -->
@@ -160,14 +161,21 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.subirProducto = async () => {
+  const nombreInput = document.getElementById("nombre");
+  const precioInput = document.getElementById("precio");
+  const tallaInput = document.getElementById("talla");
+  const imagenInput = document.getElementById("imagen");
+  const lista = document.getElementById("listaProductos");
+  const btnSubir = document.getElementById("btnSubir");
+
+  btnSubir.addEventListener("click", async () => {
     const nombre = nombreInput.value.trim();
     const precio = precioInput.value.trim();
     const talla = tallaInput.value.trim();
     const imagen = imagenInput.value.trim();
 
     if (!nombre || !precio || !imagen) {
-      alert("Completa los campos obligatorios");
+      alert("Completa nombre, precio e imagen");
       return;
     }
 
@@ -184,13 +192,7 @@
     precioInput.value = "";
     tallaInput.value = "";
     imagenInput.value = "";
-  };
-
-  const nombreInput = document.getElementById("nombre");
-  const precioInput = document.getElementById("precio");
-  const tallaInput = document.getElementById("talla");
-  const imagenInput = document.getElementById("imagen");
-  const lista = document.getElementById("listaProductos");
+  });
 
   onSnapshot(collection(db, "productos"), (snapshot) => {
     lista.innerHTML = "";
@@ -201,7 +203,7 @@
 
       lista.innerHTML += `
         <div class="producto">
-          <img src="${p.imagen}">
+          <img src="${p.imagen}" alt="${p.nombre}">
           <div class="producto-info">
             <div class="estado ${p.estado === "agotado" ? "agotado" : "nuevo"}">
               ${p.estado}
@@ -210,8 +212,8 @@
             $${p.precio}<br>
             ${p.talla || ""}
             <div class="acciones">
-              <button class="nuevo" onclick="cambiarEstado('${id}','activo')">Nuevo</button>
-              <button class="agotado" onclick="cambiarEstado('${id}','agotado')">Agotado</button>
+              <button class="nuevo-btn" onclick="cambiarEstado('${id}','activo')">Nuevo</button>
+              <button class="agotado-btn" onclick="cambiarEstado('${id}','agotado')">Agotado</button>
               <button class="eliminar" onclick="eliminarProducto('${id}')">Eliminar</button>
             </div>
           </div>

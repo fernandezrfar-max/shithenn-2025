@@ -87,7 +87,7 @@
       text-transform: uppercase;
     }
 
-    .nuevo { color: green; }
+    .activo { color: green; }
     .agotado { color: red; }
 
     .acciones button {
@@ -104,7 +104,7 @@
       background: #f39c12;
     }
 
-    .acciones .nuevo-btn {
+    .acciones .activo-btn {
       background: #27ae60;
     }
   </style>
@@ -124,6 +124,7 @@
 
     <input type="text" id="nombre" placeholder="Nombre del producto">
     <input type="number" id="precio" placeholder="Precio">
+    <input type="text" id="categoria" placeholder="Categoría (blusas, vestidos, chaquetas...)">
     <input type="text" id="talla" placeholder="Talla (opcional)">
     <input type="url" id="imagen" placeholder="URL de la imagen">
 
@@ -147,7 +148,9 @@
     onSnapshot,
     doc,
     updateDoc,
-    deleteDoc
+    deleteDoc,
+    query,
+    orderBy
   } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -164,25 +167,29 @@
 
   const nombreInput = document.getElementById("nombre");
   const precioInput = document.getElementById("precio");
+  const categoriaInput = document.getElementById("categoria");
   const tallaInput = document.getElementById("talla");
   const imagenInput = document.getElementById("imagen");
   const lista = document.getElementById("listaProductos");
   const btnSubir = document.getElementById("btnSubir");
 
+  // SUBIR PRODUCTO
   btnSubir.addEventListener("click", async () => {
     const nombre = nombreInput.value.trim();
     const precio = precioInput.value.trim();
+    const categoria = categoriaInput.value.trim().toLowerCase();
     const talla = tallaInput.value.trim();
     const imagen = imagenInput.value.trim();
 
-    if (!nombre || !precio || !imagen) {
-      alert("Completa nombre, precio e imagen");
+    if (!nombre || !precio || !categoria || !imagen) {
+      alert("Completa nombre, precio, categoría e imagen");
       return;
     }
 
     await addDoc(collection(db, "productos"), {
       nombre,
       precio,
+      categoria,
       talla,
       imagen,
       estado: "activo",
@@ -191,11 +198,15 @@
 
     nombreInput.value = "";
     precioInput.value = "";
+    categoriaInput.value = "";
     tallaInput.value = "";
     imagenInput.value = "";
   });
 
-  onSnapshot(collection(db, "productos"), (snapshot) => {
+  // LISTAR PRODUCTOS (ordenados)
+  const q = query(collection(db, "productos"), orderBy("fecha", "desc"));
+
+  onSnapshot(q, (snapshot) => {
     lista.innerHTML = "";
 
     snapshot.forEach((docu) => {
@@ -206,14 +217,15 @@
         <div class="producto">
           <img src="${p.imagen}" alt="${p.nombre}">
           <div class="producto-info">
-            <div class="estado ${p.estado === "agotado" ? "agotado" : "nuevo"}">
+            <div class="estado ${p.estado === "agotado" ? "agotado" : "activo"}">
               ${p.estado}
             </div>
             <strong>${p.nombre}</strong><br>
             $${p.precio}<br>
+            ${p.categoria}<br>
             ${p.talla || ""}
             <div class="acciones">
-              <button class="nuevo-btn" onclick="cambiarEstado('${id}','activo')">Nuevo</button>
+              <button class="activo-btn" onclick="cambiarEstado('${id}','activo')">Activo</button>
               <button class="agotado-btn" onclick="cambiarEstado('${id}','agotado')">Agotado</button>
               <button class="eliminar" onclick="eliminarProducto('${id}')">Eliminar</button>
             </div>
@@ -223,10 +235,12 @@
     });
   });
 
+  // CAMBIAR ESTADO
   window.cambiarEstado = async (id, estado) => {
     await updateDoc(doc(db, "productos", id), { estado });
   };
 
+  // ELIMINAR
   window.eliminarProducto = async (id) => {
     if (confirm("¿Eliminar este producto?")) {
       await deleteDoc(doc(db, "productos", id));

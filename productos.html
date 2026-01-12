@@ -5,141 +5,239 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Productos - Sheitenn Boutique</title>
 <link rel="icon" href="logo.png" type="image/png"> 
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== ESTILOS ORIGINALES ===================== */
+/* ================= VARIABLES ORIGINALES ================= */
 :root {
-    --color-primario:#E84D8C;
-    --color-secundario:#D0008F;
-    --color-texto:#1A1A1A;
-    --color-gris-claro:#F8F8F8;
-    --color-blanco:#FFF;
-    --color-rosa-claro:#FADDE5;
-    --color-borde-gris:#DDD;
+  --color-primario:#E84D8C;
+  --color-secundario:#D0008F;
+  --color-texto:#1A1A1A;
+  --color-gris-claro:#F8F8F8;
+  --color-blanco:#FFFFFF;
+  --color-rosa-claro:#FADDE5;
+  --color-borde-gris:#DDD;
 }
+
 body{
-    font-family:'Inter',sans-serif;
-    margin:0;
-    background:var(--color-gris-claro);
+  font-family:'Inter',sans-serif;
+  margin:0;
+  background:var(--color-gris-claro);
+  color:var(--color-texto);
 }
+
+h1,h2,h3,button,nav a{
+  font-weight:900;
+}
+
+/* ================= HEADER ================= */
 header{
-    background:#fff;
-    border-bottom:1px solid var(--color-borde-gris);
-    padding:15px 5%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:fixed;
-    width:90%;
-    top:0;
-    z-index:1000;
+  background:#fff;
+  border-bottom:1px solid var(--color-borde-gris);
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:fixed;
+  width:90%;
+  top:0;
+  z-index:1000;
 }
 .logo img{height:80px}
 nav a{
-    margin-left:35px;
-    text-decoration:none;
-    color:var(--color-texto);
-    font-weight:900;
+  margin-left:35px;
+  text-decoration:none;
+  color:var(--color-texto);
 }
 nav a.active,nav a:hover{
-    color:var(--color-primario);
-    border-bottom:3px solid var(--color-primario);
+  color:var(--color-primario);
+  border-bottom:3px solid var(--color-primario);
 }
+
+/* ================= CONTENEDOR ================= */
 .products-page-container{
-    padding:150px 5% 60px;
-    max-width:1400px;
-    margin:auto;
+  padding:150px 5% 60px;
+  max-width:1400px;
+  margin:auto;
 }
+
 .products-page-container h2{
-    text-align:center;
-    font-size:2.8em;
-    color:var(--color-secundario);
+  text-align:center;
+  font-size:2.8em;
+  color:var(--color-secundario);
+  letter-spacing:3px;
 }
+
+/* ================= BUSCADOR Y FILTROS ================= */
 .search-controls{
-    display:flex;
-    flex-wrap:wrap;
-    gap:20px;
-    background:#fff;
-    padding:20px;
-    border-radius:15px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
 }
+
 .search-box input{
-    padding:15px;
-    width:100%;
-    border-radius:50px;
-    border:2px solid var(--color-rosa-claro);
-    font-weight:700;
+  padding:15px 20px;
+  width:100%;
+  border-radius:50px;
+  border:2px solid var(--color-rosa-claro);
+  font-weight:700;
 }
+
 .category-filters button{
-    padding:10px 20px;
-    border-radius:50px;
-    border:none;
-    font-weight:700;
-    cursor:pointer;
+  padding:10px 20px;
+  border-radius:50px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--color-gris-claro);
 }
+
 .category-filters button.active{
-    background:var(--color-secundario);
-    color:#fff;
+  background:var(--color-secundario);
+  color:#fff;
 }
+
+/* ================= GRID PRODUCTOS ================= */
 .productos-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
 }
+
 .producto-card{
-    background:#fff;
-    border-radius:20px;
-    border:1px solid var(--color-rosa-claro);
-    text-align:center;
-    transition:.3s;
+  background:#fff;
+  border-radius:20px;
+  border:1px solid var(--color-rosa-claro);
+  text-align:center;
+  transition:.3s;
 }
+
 .producto-card.hidden{display:none}
+
 .producto-imagen-wrapper{
-    height:400px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  height:400px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--color-gris-claro);
 }
+
 .producto-imagen-wrapper img{
-    max-width:100%;
-    max-height:100%;
-    object-fit:contain;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
 }
-.producto-info h3{text-transform:uppercase}
+
+.producto-info{
+  padding:0 15px 20px;
+}
+
+.producto-info h3{
+  text-transform:uppercase;
+  font-size:1.2em;
+}
+
 .producto-info p{
-    color:var(--color-secundario);
-    font-weight:900;
-    font-size:1.4em;
+  color:var(--color-secundario);
+  font-weight:900;
+  font-size:1.5em;
+  margin-bottom:15px;
 }
+
 .btn-detalle{
-    background:var(--color-secundario);
-    color:#fff;
-    border:none;
-    padding:12px;
-    width:90%;
-    border-radius:50px;
-    cursor:pointer;
+  background:var(--color-secundario);
+  color:#fff;
+  border:none;
+  padding:12px 25px;
+  border-radius:50px;
+  width:90%;
+  cursor:pointer;
+  margin-top:10px;
 }
+
+.btn-detalle:hover{
+  background:var(--color-primario);
+}
+
+/* ================= MODAL ================= */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+}
+
+.modal.activo{display:flex}
+
+.modal-contenido{
+  background:#fff;
+  width:90%;
+  max-width:380px;
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+
+.modal-cerrar{
+  position:absolute;
+  top:10px;
+  right:10px;
+  border:none;
+  background:#000;
+  color:#fff;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.modal-contenido img{
+  width:100%;
+  height:250px;
+  object-fit:contain;
+}
+
+.modal-btn-whatsapp{
+  display:block;
+  width:100%;
+  background:#25d366;
+  color:#fff;
+  padding:14px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:900;
+  margin-top:15px;
+}
+
+/* ================= FOOTER ================= */
 footer{
-    background:#111;
-    color:#eee;
-    text-align:center;
-    padding:30px;
+  background:#111;
+  color:#eee;
+  text-align:center;
+  padding:30px;
 }
+
 .whatsapp-float{
-    position:fixed;
-    right:30px;
-    bottom:30px;
-    width:60px;
-    height:60px;
-    background:#25d366;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#fff;
-    font-size:30px;
+  position:fixed;
+  right:30px;
+  bottom:30px;
+  width:60px;
+  height:60px;
+  background:#25d366;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:#fff;
 }
 </style>
 </head>
@@ -147,9 +245,7 @@ footer{
 <body>
 
 <header>
-  <div class="logo">
-    <img src="logo.png">
-  </div>
+  <div class="logo"><img src="logo.png"></div>
   <nav>
     <a href="index.html">Inicio</a>
     <a href="productos.html" class="active">Productos</a>
@@ -163,7 +259,7 @@ footer{
 
 <div class="search-controls">
   <div class="search-box">
-    <input id="searchInput" placeholder="Buscar producto...">
+    <input id="searchInput" placeholder="Buscar por nombre...">
   </div>
   <div class="category-filters">
     <button data-category="todos" class="active">Todos</button>
@@ -184,7 +280,20 @@ footer{
 
 <a class="whatsapp-float" href="https://wa.me/573136952121">💬</a>
 
-<!-- ===================== FIREBASE + LÓGICA ===================== -->
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modalDetalle">
+  <div class="modal-contenido">
+    <button class="modal-cerrar" id="cerrarModal">×</button>
+    <img id="modalImagen">
+    <h3 id="modalNombre"></h3>
+    <p id="modalPrecio"></p>
+    <a id="modalWhatsApp" class="modal-btn-whatsapp" target="_blank">
+      HABLAR POR WHATSAPP
+    </a>
+  </div>
+</div>
+
+<!-- ================= FIREBASE ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, collection, query, orderBy, onSnapshot } 
@@ -227,6 +336,21 @@ onSnapshot(query(collection(db,"productos"),orderBy("fecha","desc")),snap=>{
         <button class="btn-detalle">COMPRAR AHORA</button>
       </div>
     `;
+
+    card.querySelector(".btn-detalle").onclick=()=>{
+      document.getElementById("modalImagen").src=p.imagen;
+      document.getElementById("modalNombre").innerText=p.nombre;
+      document.getElementById("modalPrecio").innerText=`$${p.precio} COP`;
+
+      const msg=encodeURIComponent(
+        `Hola, quiero información sobre: ${p.nombre} - $${p.precio} COP`
+      );
+      document.getElementById("modalWhatsApp").href=
+        `https://wa.me/573136952121?text=${msg}`;
+
+      document.getElementById("modalDetalle").classList.add("activo");
+    };
+
     grid.appendChild(card);
     cards.push(card);
   });
@@ -249,6 +373,11 @@ buttons.forEach(b=>b.onclick=()=>{
   b.classList.add("active");
   filtrar();
 });
+
+cerrarModal.onclick=()=>modalDetalle.classList.remove("activo");
+modalDetalle.onclick=e=>{
+  if(e.target===modalDetalle)modalDetalle.classList.remove("activo");
+};
 </script>
 
 </body>

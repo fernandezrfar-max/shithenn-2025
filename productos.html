@@ -9,237 +9,395 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-/* ================= VARIABLES ORIGINALES ================= */
-:root {
-  --color-primario:#E84D8C;
-  --color-secundario:#D0008F;
-  --color-texto:#1A1A1A;
-  --color-gris-claro:#F8F8F8;
-  --color-blanco:#FFFFFF;
-  --color-rosa-claro:#FADDE5;
-  --color-borde-gris:#DDD;
+        /* ========================================================== */
+        /* ESTILOS CSS INTEGRADOS                     */
+        /* ========================================================== */
+
+        /* 1. Variables de Color (Tomadas de tu código inicial) */
+        :root {
+            --color-primario: #E84D8C; /* Rosa Fuerte de tu logo */
+            --color-secundario: #D0008F; /* Fucsia profundo */
+            --color-fondo: #FFFFFF; /* Blanco Puro */
+            --color-texto: #1A1A1A; /* Negro Profundo */
+            --color-gris-claro: #F8F8F8;
+            --color-blanco: #FFFFFF;
+            --color-rosa-claro: #FADDE5; /* Fondo de la tarjeta de corazón */
+            --color-borde-gris: #DDD;
+        }
+
+        /* 2. Estilos Generales y Tipografía */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-gris-claro); /* Fondo claro para toda la página de productos */
+            color: var(--color-texto);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, .cta-button, nav a {
+            font-weight: 900; 
+        }
+        
+        /* 3. HEADER y NAV (Se mantiene igual) */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--color-borde-gris);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 90%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 80px; margin-right: 10px; }
+        .logo-text h1 {
+            color: var(--color-primario);
+            font-size: 1.8em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--color-texto);
+            text-decoration: none;
+            margin-left: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { 
+            color: var(--color-primario); 
+            border-bottom: 3px solid var(--color-primario);
+        }
+        
+        /* 4. Contenedor Principal de Productos */
+        .products-page-container {
+            padding: 150px 5% 60px; /* Padding superior para compensar el header fijo */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-page-container h2 {
+            font-size: 2.8em;
+            color: var(--color-secundario);
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .search-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Estilo del Buscador */
+        .search-box {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--color-rosa-claro);
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 700;
+            transition: border-color 0.3s;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primario);
+            box-shadow: 0 0 5px rgba(232, 77, 140, 0.3);
+        }
+
+        /* Estilo de los Filtros/Categorías */
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .category-filters button {
+            background-color: var(--color-gris-claro);
+            color: var(--color-texto);
+            border: 2px solid var(--color-gris-claro);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+        .category-filters button:hover {
+            background-color: var(--color-rosa-claro);
+            border-color: var(--color-primario);
+        }
+        .category-filters button.active {
+            background-color: var(--color-secundario);
+            color: var(--color-blanco);
+            border-color: var(--color-secundario);
+        }
+
+        /* 5. Estilo de la Rejilla y la Tarjeta de Producto (Mismos estilos que tenías) */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        /* Contenedor de la Tarjeta - Bordes Súper Redondeados */
+        .producto-card {
+            background-color: var(--color-fondo);
+            border: 1px solid var(--color-rosa-claro);
+            border-radius: 20px;
+            overflow: hidden; 
+            text-align: center;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            /* Estilo para productos ocultos */
+            display: block;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease;
+        }
+        .producto-card.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        .producto-card:hover { 
+            box-shadow: 0 10px 25px rgba(224, 73, 137, 0.2); 
+            transform: translateY(-5px);
+        }
+        
+        /* Contenedor de la imagen para el efecto de zoom y contain */
+        .producto-imagen-wrapper {
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-gris-claro);
+        }
+
+        .producto-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .producto-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .producto-info { 
+            padding: 0 15px 20px 15px;
+        }
+        .producto-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--color-texto);
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        /* Precio - Destacado en Fucsia */
+        .producto-info p {
+            margin: 0 0 15px 0;
+            font-weight: 900;
+            color: var(--color-secundario);
+            font-size: 1.5em;
+        }
+        
+        /* Botón de Producto (Estilo 'Comprar Ahora') */
+        .btn-detalle {
+            background-color: var(--color-secundario); 
+            color: var(--color-blanco);
+            border: none;
+            padding: 12px 25px;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 900;
+            transition: background-color 0.3s ease;
+            width: 90%;
+            margin-top: 10px;
+        }
+        .btn-detalle:hover { 
+            background-color: var(--color-primario);
+            box-shadow: 0 2px 10px rgba(224, 73, 137, 0.4);
+        }
+        
+        /* 6. Estilo del Botón Flotante de WhatsApp (Se mantiene igual) */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float::before {
+            content: '💬';
+            font-size: 24px;
+        }
+
+        /* 7. Footer (Se mantiene igual) */
+        footer {
+            background-color: var(--color-texto);
+            color: var(--color-gris-claro);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: var(--color-secundario);
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        /* 8. Media Queries (Responsivo) */
+        @media (max-width: 900px) {
+            .search-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+            .category-filters {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            nav a { margin: 5px 10px; font-size: 0.9em; }
+            .products-page-container { padding-top: 200px; } /* Ajuste de padding si el header es doble línea */
+            .productos-grid { grid-template-columns: 1fr; }
+            .whatsapp-float { bottom: 20px; right: 20px; }
+        }
+
+        /* ======== MODAL DE PRODUCTO ======== */
+/* === MODAL DE DETALLE (versión compacta) === */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
 }
 
-body{
-  font-family:'Inter',sans-serif;
-  margin:0;
-  background:var(--color-gris-claro);
-  color:var(--color-texto);
+.modal.activo {
+    display: flex;
 }
 
-h1,h2,h3,button,nav a{
-  font-weight:900;
+/* Caja del modal: más pequeña y elegante */
+.modal-contenido {
+    background: #fff;
+    width: 90%;
+    max-width: 380px; /* más pequeño y manejable */
+    border-radius: 18px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.25s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
-/* ================= HEADER ================= */
-header{
-  background:#fff;
-  border-bottom:1px solid var(--color-borde-gris);
-  padding:15px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:fixed;
-  width:90%;
-  top:0;
-  z-index:1000;
-}
-.logo img{height:80px}
-nav a{
-  margin-left:35px;
-  text-decoration:none;
-  color:var(--color-texto);
-}
-nav a.active,nav a:hover{
-  color:var(--color-primario);
-  border-bottom:3px solid var(--color-primario);
+/* Botón cerrar */
+.modal-cerrar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
-/* ================= CONTENEDOR ================= */
-.products-page-container{
-  padding:150px 5% 60px;
-  max-width:1400px;
-  margin:auto;
+/* Imagen dentro del modal */
+.modal-contenido img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 10px;
 }
 
-.products-page-container h2{
-  text-align:center;
-  font-size:2.8em;
-  color:var(--color-secundario);
-  letter-spacing:3px;
+/* Nombre */
+.modal-contenido h3 {
+    font-size: 1.2em;
+    margin: 5px 0;
 }
 
-/* ================= BUSCADOR Y FILTROS ================= */
-.search-controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
-  background:#fff;
-  padding:20px;
-  border-radius:15px;
+/* Precio */
+.modal-contenido p {
+    font-size: 1.4em;
+    color: var(--color-secundario);
+    font-weight: 900;
+    margin-bottom: 15px;
 }
 
-.search-box input{
-  padding:15px 20px;
-  width:100%;
-  border-radius:50px;
-  border:2px solid var(--color-rosa-claro);
-  font-weight:700;
+/* Botón WhatsApp */
+.modal-btn-whatsapp {
+    display: block;
+    width: 100%;
+    background: #25d366;
+    color: white;
+    padding: 14px;
+    font-weight: 900;
+    border-radius: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-top: 10px;
 }
 
-.category-filters button{
-  padding:10px 20px;
-  border-radius:50px;
-  border:none;
-  font-weight:700;
-  cursor:pointer;
-  background:var(--color-gris-claro);
+@keyframes fadeIn {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
-.category-filters button.active{
-  background:var(--color-secundario);
-  color:#fff;
-}
-
-/* ================= GRID PRODUCTOS ================= */
-.productos-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
-}
-
-.producto-card{
-  background:#fff;
-  border-radius:20px;
-  border:1px solid var(--color-rosa-claro);
-  text-align:center;
-  transition:.3s;
-}
-
-.producto-card.hidden{display:none}
-
-.producto-imagen-wrapper{
-  height:400px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--color-gris-claro);
-}
-
-.producto-imagen-wrapper img{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
-}
-
-.producto-info{
-  padding:0 15px 20px;
-}
-
-.producto-info h3{
-  text-transform:uppercase;
-  font-size:1.2em;
-}
-
-.producto-info p{
-  color:var(--color-secundario);
-  font-weight:900;
-  font-size:1.5em;
-  margin-bottom:15px;
-}
-
-.btn-detalle{
-  background:var(--color-secundario);
-  color:#fff;
-  border:none;
-  padding:12px 25px;
-  border-radius:50px;
-  width:90%;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-.btn-detalle:hover{
-  background:var(--color-primario);
-}
-
-/* ================= MODAL ================= */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:2000;
-}
-
-.modal.activo{display:flex}
-
-.modal-contenido{
-  background:#fff;
-  width:90%;
-  max-width:380px;
-  border-radius:18px;
-  padding:20px;
-  text-align:center;
-  position:relative;
-}
-
-.modal-cerrar{
-  position:absolute;
-  top:10px;
-  right:10px;
-  border:none;
-  background:#000;
-  color:#fff;
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  cursor:pointer;
-}
-
-.modal-contenido img{
-  width:100%;
-  height:250px;
-  object-fit:contain;
-}
-
-.modal-btn-whatsapp{
-  display:block;
-  width:100%;
-  background:#25d366;
-  color:#fff;
-  padding:14px;
-  border-radius:50px;
-  text-decoration:none;
-  font-weight:900;
-  margin-top:15px;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  background:#111;
-  color:#eee;
-  text-align:center;
-  padding:30px;
-}
-
-.whatsapp-float{
-  position:fixed;
-  right:30px;
-  bottom:30px;
-  width:60px;
-  height:60px;
-  background:#25d366;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  color:#fff;
-}
-</style>
+    </style>
 </head>
 
 <body>

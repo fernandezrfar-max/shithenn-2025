@@ -2,41 +2,144 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Productos - Sheitenn Boutique</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productos - Sheitenn Boutique</title>
+<link rel="icon" href="logo.png" type="image/png"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-body { margin:0; font-family:Arial; background:#f5f5f5; }
-header { background:#fff; padding:15px; text-align:center; border-bottom:1px solid #ddd; }
-.productos-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:20px;
-  padding:20px;
+/* ===================== ESTILOS ORIGINALES ===================== */
+:root {
+    --color-primario:#E84D8C;
+    --color-secundario:#D0008F;
+    --color-texto:#1A1A1A;
+    --color-gris-claro:#F8F8F8;
+    --color-blanco:#FFF;
+    --color-rosa-claro:#FADDE5;
+    --color-borde-gris:#DDD;
 }
-.producto-card {
-  background:#fff;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
+body{
+    font-family:'Inter',sans-serif;
+    margin:0;
+    background:var(--color-gris-claro);
 }
-.producto-card img {
-  width:100%;
-  height:260px;
-  object-fit:cover;
+header{
+    background:#fff;
+    border-bottom:1px solid var(--color-borde-gris);
+    padding:15px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:fixed;
+    width:90%;
+    top:0;
+    z-index:1000;
 }
-.producto-info {
-  padding:15px;
-  text-align:center;
+.logo img{height:80px}
+nav a{
+    margin-left:35px;
+    text-decoration:none;
+    color:var(--color-texto);
+    font-weight:900;
 }
-.producto-info h3 { margin:0 0 5px; }
-.producto-info p { margin:0 0 10px; font-weight:bold; color:#d0008f; }
-.btn {
-  width:100%;
-  padding:10px;
-  border:none;
-  background:black;
-  color:white;
+nav a.active,nav a:hover{
+    color:var(--color-primario);
+    border-bottom:3px solid var(--color-primario);
+}
+.products-page-container{
+    padding:150px 5% 60px;
+    max-width:1400px;
+    margin:auto;
+}
+.products-page-container h2{
+    text-align:center;
+    font-size:2.8em;
+    color:var(--color-secundario);
+}
+.search-controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+}
+.search-box input{
+    padding:15px;
+    width:100%;
+    border-radius:50px;
+    border:2px solid var(--color-rosa-claro);
+    font-weight:700;
+}
+.category-filters button{
+    padding:10px 20px;
+    border-radius:50px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+}
+.category-filters button.active{
+    background:var(--color-secundario);
+    color:#fff;
+}
+.productos-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+.producto-card{
+    background:#fff;
+    border-radius:20px;
+    border:1px solid var(--color-rosa-claro);
+    text-align:center;
+    transition:.3s;
+}
+.producto-card.hidden{display:none}
+.producto-imagen-wrapper{
+    height:400px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.producto-imagen-wrapper img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+}
+.producto-info h3{text-transform:uppercase}
+.producto-info p{
+    color:var(--color-secundario);
+    font-weight:900;
+    font-size:1.4em;
+}
+.btn-detalle{
+    background:var(--color-secundario);
+    color:#fff;
+    border:none;
+    padding:12px;
+    width:90%;
+    border-radius:50px;
+    cursor:pointer;
+}
+footer{
+    background:#111;
+    color:#eee;
+    text-align:center;
+    padding:30px;
+}
+.whatsapp-float{
+    position:fixed;
+    right:30px;
+    bottom:30px;
+    width:60px;
+    height:60px;
+    background:#25d366;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:30px;
 }
 </style>
 </head>
@@ -44,51 +147,107 @@ header { background:#fff; padding:15px; text-align:center; border-bottom:1px sol
 <body>
 
 <header>
-  <h2>Catálogo Sheitenn Boutique</h2>
+  <div class="logo">
+    <img src="logo.png">
+  </div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="productos.html" class="active">Productos</a>
+    <a href="quienesomos.html">Quienes Somos</a>
+    <a href="contacto.html">Contacto</a>
+  </nav>
 </header>
 
-<div class="productos-grid" id="productosGrid"></div>
+<main class="products-page-container">
+<h2>Catálogo</h2>
 
+<div class="search-controls">
+  <div class="search-box">
+    <input id="searchInput" placeholder="Buscar producto...">
+  </div>
+  <div class="category-filters">
+    <button data-category="todos" class="active">Todos</button>
+    <button data-category="blusas">Blusas</button>
+    <button data-category="chaquetas">Chaquetas</button>
+    <button data-category="vestidos">Vestidos</button>
+    <button data-category="enterizos">Enterizos</button>
+    <button data-category="bolsos">Bolsos</button>
+  </div>
+</div>
+
+<div class="productos-grid" id="productosGrid"></div>
+</main>
+
+<footer>
+<p>Sheitenn Boutique © 2025</p>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/573136952121">💬</a>
+
+<!-- ===================== FIREBASE + LÓGICA ===================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, collection, query, orderBy, onSnapshot } 
+from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDI8B6x2XEI9KEMVMKTgVS2sfylh9mGjd4",
-  authDomain: "boutique-2025.firebaseapp.com",
-  projectId: "boutique-2025"
+const firebaseConfig={
+  apiKey:"AIzaSyDI8B6x2XEI9KEMVMKTgVS2sfylh9mGjd4",
+  authDomain:"boutique-2025.firebaseapp.com",
+  projectId:"boutique-2025"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const grid = document.getElementById("productosGrid");
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-const q = query(collection(db,"productos"), orderBy("fecha","desc"));
+const grid=document.getElementById("productosGrid");
+const searchInput=document.getElementById("searchInput");
+const buttons=document.querySelectorAll(".category-filters button");
 
-onSnapshot(q, snap => {
-  grid.innerHTML = "";
-  snap.forEach(d => {
-    const p = d.data();
+let cards=[];
 
-    if (p.estado !== "activo") return;
+onSnapshot(query(collection(db,"productos"),orderBy("fecha","desc")),snap=>{
+  grid.innerHTML="";
+  cards=[];
+  snap.forEach(doc=>{
+    const p=doc.data();
+    if(p.estado!=="activo")return;
 
-    const card = document.createElement("div");
-    card.className = "producto-card";
-    card.innerHTML = `
-      <img src="${p.imagen}">
+    const card=document.createElement("article");
+    card.className="producto-card";
+    card.dataset.name=p.nombre.toLowerCase();
+    card.dataset.category=p.categoria;
+
+    card.innerHTML=`
+      <div class="producto-imagen-wrapper">
+        <img src="${p.imagen}">
+      </div>
       <div class="producto-info">
         <h3>${p.nombre}</h3>
         <p>$${p.precio} COP</p>
-        <button class="btn">Comprar</button>
-      </div>`;
+        <button class="btn-detalle">COMPRAR AHORA</button>
+      </div>
+    `;
     grid.appendChild(card);
+    cards.push(card);
   });
+  filtrar();
+});
+
+function filtrar(){
+  const texto=searchInput.value.toLowerCase();
+  const cat=document.querySelector(".category-filters .active").dataset.category;
+  cards.forEach(c=>{
+    const okTexto=c.dataset.name.includes(texto);
+    const okCat=cat==="todos"||c.dataset.category===cat;
+    c.classList.toggle("hidden",!(okTexto&&okCat));
+  });
+}
+
+searchInput.oninput=filtrar;
+buttons.forEach(b=>b.onclick=()=>{
+  buttons.forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  filtrar();
 });
 </script>
 

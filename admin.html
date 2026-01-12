@@ -2,65 +2,239 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Admin Boutique</title>
+<title>Admin | Sheitenn Boutique</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body { margin:0; font-family:Arial; background:#f2f2f2; }
-header { background:black; color:white; padding:15px; text-align:center; }
-.container { display:grid; grid-template-columns:1fr 2fr; gap:20px; padding:20px; }
-.card { background:white; padding:20px; border-radius:10px; }
-input, button { width:100%; padding:10px; margin-bottom:10px; }
-button { border:none; cursor:pointer; }
-.productos { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:15px; }
-.producto { border:1px solid #ddd; border-radius:8px; overflow:hidden; background:#fff; }
-.producto img { width:100%; height:160px; object-fit:cover; }
-.info { padding:10px; font-size:14px; }
-.estado { font-weight:bold; text-transform:uppercase; }
-.activo { color:green; }
-.agotado { color:red; }
-.eliminar { background:#c0392b; color:white; }
-.agotado-btn { background:#f39c12; }
-.activo-btn { background:#27ae60; }
+:root {
+  --primary: #000;
+  --secondary: #d0008f;
+  --bg: #f4f4f4;
+  --card: #ffffff;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --danger: #c0392b;
+  --text: #333;
+}
+
+/* RESET */
+* {
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* HEADER */
+header {
+  background: var(--primary);
+  color: white;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* CONTENEDOR */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 20px;
+}
+
+/* TARJETAS */
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+/* TITULOS */
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* FORMULARIO */
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--secondary);
+}
+
+/* BOTONES */
+button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #222;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-group button {
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+/* GRID PRODUCTOS */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+/* CARD PRODUCTO */
+.producto {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.producto img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.producto-info {
+  padding: 12px;
+  font-size: 14px;
+  flex: 1;
+}
+
+/* ESTADO */
+.estado {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.estado.activo {
+  color: var(--success);
+}
+
+.estado.agotado {
+  color: var(--danger);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<header>Panel de Administración – Sheitenn Boutique</header>
+<header>
+  PANEL ADMINISTRATIVO – SHEITENN BOUTIQUE
+</header>
 
 <div class="container">
 
-<!-- FORMULARIO -->
-<div class="card">
-  <h3>Subir producto</h3>
-  <input id="nombre" placeholder="Nombre">
-  <input id="precio" type="number" placeholder="Precio">
-  <input id="categoria" placeholder="Categoría (blusas, vestidos...)">
-  <input id="imagen" placeholder="URL de imagen">
-  <button id="btnSubir">Subir producto</button>
-</div>
+  <!-- FORMULARIO -->
+  <div class="card">
+    <h3>Nuevo producto</h3>
 
-<!-- LISTADO -->
-<div class="card">
-  <h3>Productos</h3>
-  <div class="productos" id="listaProductos"></div>
-</div>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input id="nombre">
+    </div>
+
+    <div class="form-group">
+      <label>Precio</label>
+      <input id="precio" type="number">
+    </div>
+
+    <div class="form-group">
+      <label>Categoría</label>
+      <input id="categoria">
+    </div>
+
+    <div class="form-group">
+      <label>URL Imagen</label>
+      <input id="imagen">
+    </div>
+
+    <button class="btn-primary" id="btnSubir">Subir producto</button>
+  </div>
+
+  <!-- LISTADO -->
+  <div class="card">
+    <h3>Productos publicados</h3>
+    <div class="productos" id="listaProductos"></div>
+  </div>
 
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  onSnapshot,
-  doc,
-  updateDoc,
-  deleteDoc,
-  query,
-  orderBy
+  getFirestore, collection, addDoc, onSnapshot,
+  doc, updateDoc, deleteDoc, query, orderBy
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -72,15 +246,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const lista = document.getElementById("listaProductos");
-
-document.getElementById("btnSubir").onclick = async () => {
+btnSubir.onclick = async () => {
   if (!nombre.value || !precio.value || !categoria.value || !imagen.value) {
     alert("Completa todos los campos");
     return;
   }
 
-  await addDoc(collection(db, "productos"), {
+  await addDoc(collection(db,"productos"),{
     nombre: nombre.value,
     precio: Number(precio.value),
     categoria: categoria.value.toLowerCase(),
@@ -95,31 +267,30 @@ document.getElementById("btnSubir").onclick = async () => {
 const q = query(collection(db,"productos"), orderBy("fecha","desc"));
 
 onSnapshot(q, snap => {
-  lista.innerHTML = "";
+  listaProductos.innerHTML = "";
   snap.forEach(d => {
     const p = d.data();
-    lista.innerHTML += `
+
+    listaProductos.innerHTML += `
       <div class="producto">
         <img src="${p.imagen}">
-        <div class="info">
+        <div class="producto-info">
           <div class="estado ${p.estado}">${p.estado}</div>
           <strong>${p.nombre}</strong><br>
           $${p.precio}<br>
           ${p.categoria}
-          <button class="activo-btn" onclick="cambiarEstado('${d.id}','activo')">Activo</button>
-          <button class="agotado-btn" onclick="cambiarEstado('${d.id}','agotado')">Agotado</button>
-          <button class="eliminar" onclick="eliminarProducto('${d.id}')">Eliminar</button>
+          <div class="btn-group">
+            <button class="btn-success" onclick="estado('${d.id}','activo')">Activo</button>
+            <button class="btn-warning" onclick="estado('${d.id}','agotado')">Agotado</button>
+            <button class="btn-danger" onclick="borrar('${d.id}')">Eliminar</button>
+          </div>
         </div>
       </div>`;
   });
 });
 
-window.cambiarEstado = (id, estado) =>
-  updateDoc(doc(db,"productos",id),{estado});
-
-window.eliminarProducto = id =>
-  confirm("¿Eliminar producto?") &&
-  deleteDoc(doc(db,"productos",id));
+window.estado = (id,e)=>updateDoc(doc(db,"productos",id),{estado:e});
+window.borrar = id=>confirm("¿Eliminar producto?") && deleteDoc(doc(db,"productos",id));
 </script>
 
 </body>
